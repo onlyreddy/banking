@@ -1,8 +1,6 @@
 import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
 import { Card, Text, Avatar, Button } from 'react-native-paper';
 import React from 'react';
-import NewPayeeForm from '../../../new-payee/NewPayeeForm';
-import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
 const avatars = [
@@ -30,12 +28,9 @@ const avatars = [
 
 
 const SendMoney = () => {
-
   const navigation = useNavigation();
-
-
   const handlePress = React.useCallback(() => {
-    navigation.navigate('New Payee Form');
+    navigation.navigate('NewPayeeForm');
   }, []);
 
   return (

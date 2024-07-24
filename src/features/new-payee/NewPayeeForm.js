@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { Card, TextInput, Chip, Button, Text, IconButton } from 'react-native-paper';
+import {
+    Card,
+    TextInput,
+    Chip,
+    Button,
+    Text,
+} from 'react-native-paper';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-import ConfirmationScreen from './ConfirmationScreen';
-import OTPScreen from './OTPScreen';
+
 
 const chips = [
     { id: '1', label: 'Family' },
@@ -19,123 +25,120 @@ const NewPayeeForm = () => {
     const [bankName, setBankName] = useState('BAC');
     const [amount, setAmount] = useState(0.0);
     const navigation = useNavigation();
-    const [showConfirmation, setShowConfirmation] = React.useState(false);
     const [selectedChip, setSelectedChip] = useState(null);
 
     const handleChipPress = (id) => {
         setSelectedChip(id);
     };
 
-    const handleSubmit = () => {
-        setShowConfirmation(true);
-    };
+    const handleSubmit = React.useCallback(() => {
+        navigation.navigate('ConfirmPayment',
+            {
+                name,
+                accountNumber,
+                ifscCode,
+                bankName,
+                amount,
+                selectedChip: chips[selectedChip]?.label,
+            }
+        );
+    }, [name, accountNumber, ifscCode, bankName, amount, selectedChip]);
 
     const handleCancel = React.useCallback(() => {
-        setShowConfirmation(false);
         navigation.goBack();
     }, []);
 
     return (
         <>
-            {showConfirmation && (
-                <OTPScreen/>
-                // <ConfirmationScreen
-                //     name={name}
-                //     accountNumber={accountNumber}
-                //     ifscCode={ifscCode}
-                //     bankName={bankName}
-                //     navigation={navigation}
-                //     amount={amount}
-                //     remarks={chips[selectedChip - 1]?.label}
-                // />
-            )}
-            {!showConfirmation && (
-                <ScrollView style={styles.container}>
-                    <Card mode=''>
+            <ScrollView style={styles.container}>
+                <Card mode=''>
+                    <TextInput
+                        mode='flat'
+                        value={amount}
+                        onChangeText={setAmount}
+                        style={styles.input}
+                        inputMode='numeric'
+                    />
+                    <Card.Content>
                         <TextInput
-                            mode='flat'
-                            value={amount}
-                            onChangeText={setAmount}
+                            mode='outlined'
+                            label='Payee Name'
+                            value={name}
+                            onChangeText={setName}
                             style={styles.input}
-                            inputMode='numeric'
                         />
-                        <Card.Content>
-                            <TextInput
-                                mode='outlined'
-                                label='Payee Name'
-                                value={name}
-                                onChangeText={setName}
-                                style={styles.input}
+                        <TextInput
+                            mode='outlined'
+                            label='Account Number'
+                            value={accountNumber}
+                            onChangeText={setAccountNumber}
+                            keyboardType='numeric'
+                            style={styles.input}
+                        />
+                        <TextInput
+                            mode='outlined'
+                            label='Reenter Account Number'
+                            value={secondAccountNumber}
+                            onChangeText={setSecondAccountNumber}
+                            keyboardType='numeric'
+                            style={styles.input}
+                            secureTextEntry
+                        />
+                        <TextInput
+                            mode='outlined'
+                            label='IFSC Code'
+                            value={ifscCode.toUpperCase()}
+                            onChangeText={setIfscCode}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            mode='outlined'
+                            label='Bank Name'
+                            value={bankName}
+                            onChangeText={setBankName}
+                            style={styles.input}
+                        />
+                        <Text variant='headlineSmall'>Remarks:</Text>
+                        <View style={styles.chipsContainer}>
+                            {chips.map((chip) => (
+                                <Chip
+                                    mode='outlined'
+                                    key={chip.id}
+                                    style={styles.chip}
+                                    selected={selectedChip === chip.id}
+                                    onPress={() => handleChipPress(chip.id)}
+                                >
+                                    {chip.label}
+                                </Chip>
+                            ))}
+                        </View>
+                        <Text variant='titleSmall' style={{ marginTop: 8 }}>
+                            PAY FROM
+                        </Text>
+                        <View style={styles.payFrom}>
+                            <MaterialCommunityIcons
+                                name={'bank'}
+                                size={24}
+                                color={'#006a4d'}
                             />
-                            <TextInput
-                                mode='outlined'
-                                label='Account Number'
-                                value={accountNumber}
-                                onChangeText={setAccountNumber}
-                                keyboardType='numeric'
-                                style={styles.input}
-                            />
-                            <TextInput
-                                mode='outlined'
-                                label='Reenter Account Number'
-                                value={secondAccountNumber}
-                                onChangeText={setSecondAccountNumber}
-                                keyboardType='numeric'
-                                style={styles.input}
-                                secureTextEntry
-                            />
-                            <TextInput
-                                mode='outlined'
-                                label='IFSC Code'
-                                value={ifscCode.toUpperCase()}
-                                onChangeText={setIfscCode}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                mode='outlined'
-                                label='Bank Name'
-                                value={bankName}
-                                onChangeText={setBankName}
-                                style={styles.input}
-                            />
-                            <Text variant='headlineSmall'>Remarks:</Text>
-                            <View style={styles.chipsContainer}>
-                                {chips.map((chip) => (
-                                    <Chip
-                                        mode='outlined'
-                                        key={chip.id}
-                                        style={styles.chip}
-                                        selected={selectedChip === chip.id}
-                                        onPress={() => handleChipPress(chip.id)}
-                                    >
-                                        {chip.label}
-                                    </Chip>
-                                ))}
+                            <View style={styles.pay}>
+                                <Text variant='labelSmall'>XXXX4545</Text>
+                                <Text variant='labelSmall'>
+                                    SA | Account Balance: &#x00A3;4545.54
+                                </Text>
                             </View>
-                            <Text variant='titleSmall'>PAY FROM</Text>
-                            <View style={styles.payFrom}>
-                                <IconButton icon='bank' color='#006a4d' />
-                                <View style={styles.pay}>
-                                    <Text variant='labelSmall'>XXXX4545</Text>
-                                    <Text variant='labelSmall'>SA | Account Balance:  &#x00A3;4545.54</Text>
-                                </View>
-                            </View>
-                        </Card.Content>
-                        <Card.Actions>
-                            <Button mode='outlined' onPress={handleCancel}>
-                                Cancel
-                            </Button>
-                            <Button
-                                mode='contained'
-                                onPress={handleSubmit}
-                                style={styles.button}
-                            >
-                                Add Payee
-                            </Button>
-                        </Card.Actions>
-                    </Card>
-                </ScrollView>
-            )}
+                        </View>
+                    </Card.Content>
+                    <Card.Actions style={styles.actions}>
+                        <Button mode='outlined' onPress={handleCancel}>
+                            Cancel
+                        </Button>
+                        <Button mode='contained' onPress={handleSubmit}>
+                            Add Payee
+                        </Button>
+                    </Card.Actions>
+                </Card>
+            </ScrollView>
         </>
     );
 };
@@ -148,30 +151,33 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 16,
     },
-    button: {
-        marginTop: 8,
-    },
+
     chipsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        padding: 16,
+        paddingVertical: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
+        marginRight: 24,
     },
     chip: {
-        margin: 4,
+        marginHorizontal: 8,
     },
     payFrom: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: -16
+        marginTop: 8,
     },
     pay: {
-        flex: 1
-    }
+        flex: 1,
+        marginLeft: 8,
+    },
+    actions: {
+        marginVertical: 16,
+    },
 });
 
 export default NewPayeeForm;

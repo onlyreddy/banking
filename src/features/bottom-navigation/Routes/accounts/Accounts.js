@@ -10,8 +10,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon='bank' />;
-const CreditCardLeftContent = (props) => <Avatar.Icon {...props} icon='credit-card-multiple' />;
-const DepositCardLeftContent = (props) => <Avatar.Icon {...props} icon='cash' />;
+const CreditCardLeftContent = (props) => (
+    <Avatar.Icon {...props} icon='credit-card-multiple' />
+);
+const DepositCardLeftContent = (props) => (
+    <Avatar.Icon {...props} icon='cash' />
+);
 
 const Accounts = () => {
     return (
@@ -48,21 +52,25 @@ const Accounts = () => {
                     <Card style={[styles.card, { backgroundColor: '#fafcfc' }]}>
                         <Card.Title title='DEPOSITS' left={DepositCardLeftContent} />
                         <Card.Content>
-                            <Text variant='titleSmall'>Grow your savings at attractive interest rates.</Text>
-                            <Button mode='text' style={styles.deposit}>Deposit</Button>
+                            <Text variant='titleSmall'>
+                                Grow your savings at attractive interest rates.
+                            </Text>
+                            <Button mode='text' style={styles.deposit}>
+                                Deposit
+                            </Button>
                         </Card.Content>
                     </Card>
-                    <Button mode='text' style={styles.viewAll}>VIEW ALL</Button>
+                    <Button mode='text' style={styles.viewAll}>
+                        VIEW ALL
+                    </Button>
                 </ScrollView>
             </View>
-            <SendMoney />
             <View style={styles.promotions}>
-
                 <BankOffers />
             </View>
+            <SendMoney />
             <Transactions />
             <QuickLinks />
-
         </ScrollView>
     );
 };
@@ -97,11 +105,10 @@ const styles = StyleSheet.create({
     deposit: {
         alignItems: 'flex-start',
         marginLeft: -10,
-        marginTop: 4
+        marginTop: 4,
     },
-    viewAll:
-    {
-        margin: 'auto'
+    viewAll: {
+        margin: 'auto',
     },
     promotions: {
         padding: 16,
@@ -109,5 +116,5 @@ const styles = StyleSheet.create({
         width: '95%',
         marginLeft: 'auto',
         marginRight: 'auto',
-    }
+    },
 });

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Keyboard } from 'react-native';
 import { TextInput, Button, Title, Subheading, Snackbar } from 'react-native-paper';
 
-const OTPScreen = () => {
+const OTPScreen = ({ navigation }) => {
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [timer, setTimer] = useState(30); // Timer in seconds
     const [canResend, setCanResend] = useState(false);
     const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const [submitDisabled, setSubmitDisabled] = useState(true);
 
     useEffect(() => {
         if (timer > 0) {
@@ -29,19 +30,22 @@ const OTPScreen = () => {
             // Focus the next input field
             this[`input${ index + 1 }`].focus();
         }
+        setSubmitDisabled(index !== otp.length - 1)
+
+        if (index === otp.length - 1)
+            Keyboard.dismiss();
     };
 
     const handleSubmit = () => {
         const otpCode = otp.join('');
-        console.log('OTP Submitted:', otpCode);
-        // Implement OTP verification logic here
+
+        navigation.navigate('PaymentSuccessfulScreen')
     };
 
-    const handleResend = () => { 
+    const handleResend = () => {
         setTimer(30);
         setCanResend(false);
         setSnackbarVisible(true);
-        // Trigger OTP resend logic here
     };
 
     return (
@@ -64,7 +68,7 @@ const OTPScreen = () => {
                 ))}
             </View>
 
-            <Button mode="contained" onPress={handleSubmit} style={styles.button}>
+            <Button mode="contained" onPress={handleSubmit} style={styles.button} disabled={submitDisabled}>
                 Submit
             </Button>
 

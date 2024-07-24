@@ -1,6 +1,6 @@
 import { View, StyleSheet, FlatList, ScrollView } from 'react-native'
 import React from 'react'
-import { Text, SegmentedButtons, Card, Divider } from 'react-native-paper'
+import { Text, SegmentedButtons, Card, Divider, Button } from 'react-native-paper'
 
 const sampleData = {
     accounts: [
@@ -79,6 +79,9 @@ const Transactions = () => {
                         )}
                         ItemSeparatorComponent={() => <Divider />}
                     />
+                    <Card.Actions>
+                        <Button mode='text'>View All</Button>
+                    </Card.Actions>
                 </Card>
             </View>
         </ScrollView>

@@ -87,17 +87,5 @@ const styles = StyleSheet.create({
     empty: {
         flex: 1
     },
-    placeholderContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    placeholderImage: {
-        width: 300,
-        height: 300
-    },
-    placeholderDeal: {
-        width: 350,
-        height: 200
-    }
+
 });
