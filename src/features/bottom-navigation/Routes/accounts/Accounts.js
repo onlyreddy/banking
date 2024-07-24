@@ -6,6 +6,9 @@ import Transactions from './Transactions';
 import SendMoney from './SendMoney';
 import QuickLinks from './QuickLinks';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 const LeftContent = (props) => <Avatar.Icon {...props} icon='bank' />;
 const CreditCardLeftContent = (props) => <Avatar.Icon {...props} icon='credit-card-multiple' />;
 const DepositCardLeftContent = (props) => <Avatar.Icon {...props} icon='cash' />;
@@ -52,13 +55,14 @@ const Accounts = () => {
                     <Button mode='text' style={styles.viewAll}>VIEW ALL</Button>
                 </ScrollView>
             </View>
+            <SendMoney />
             <View style={styles.promotions}>
 
                 <BankOffers />
             </View>
             <Transactions />
-            <SendMoney />
             <QuickLinks />
+
         </ScrollView>
     );
 };

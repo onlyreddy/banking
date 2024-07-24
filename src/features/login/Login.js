@@ -9,14 +9,20 @@ import {
 import LottieView from 'lottie-react-native';
 import mike from '../../assets/mic.json';
 import BiometricAuth from '../bio-metric/BiometricAuth';
+import { useNavigation } from '@react-navigation/native';
 
-const Login = ({ onLogonClick }) => {
+const Login = () => {
     const [username, setUsername] = React.useState('johndoe');
     const [password, setPassword] = React.useState('');
-    const [isLoginDisabled, setIsLoginDisabled] = React.useState(true);
+    const [isLoginDisabled, setIsLoginDisabled] = React.useState(false);
     const { colors } = useTheme();
+    const navigation = useNavigation()
 
     React.useEffect(() => setIsLoginDisabled(username === '' || password === ""), [useTheme, password]);
+
+    const handleLogin = React.useCallback(() => {
+        navigation.navigate('BottomTabs')
+    }, [])
 
     return (
         <View>
@@ -42,8 +48,8 @@ const Login = ({ onLogonClick }) => {
                     onChangeText={(text) => setPassword(text)}
                     style={styles.password}
                 />
-                <Button mode='contained' style={styles.continue} disabled={isLoginDisabled}
-                    onPress={onLogonClick}
+                <Button mode='contained' style={styles.continue} disabled={false}
+                    onPress={handleLogin}
                 >
                     Continue
                 </Button>

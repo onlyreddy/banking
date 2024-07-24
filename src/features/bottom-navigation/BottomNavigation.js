@@ -5,11 +5,20 @@ import Accounts from './Routes/accounts/Accounts'
 
 const AccountsRoute = () => <Accounts />;
 
-const LoansRoute = () => <Text>Albums</Text>;
+const LoansRoute = () => <View style={styles.placeholderContainer}>
+    <Image source={require('../../assets/apply.png')} style={styles.placeholderImage} />
+    <Text variant='headlineLarge' style={{ color: '#006a4d' }}>Coming Soon...</Text>
+</View>;
 
-const DealsRoute = () => <Text>Recents</Text>;
+const DealsRoute = () => <View style={styles.placeholderContainer}>
+    <Image source={require('../../assets/discount.png')} style={styles.placeholderDeal} />
+    <Text variant='headlineLarge' style={{ color: '#006a4d' }}>Coming Soon...</Text>
+</View>;
 
-const MoreRoute = () => <Text>Notifications</Text>;
+const MoreRoute = () => <View style={styles.placeholderContainer}>
+    <Image source={require('../../assets/more.png')} style={styles.placeholderImage} />
+    <Text variant='headlineLarge' style={{ color: '#006a4d' }}>Coming Soon...</Text>
+</View>;
 
 const MyComponent = () => {
     const { colors } = useTheme()
@@ -77,5 +86,18 @@ const styles = StyleSheet.create({
     },
     empty: {
         flex: 1
+    },
+    placeholderContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    placeholderImage: {
+        width: 300,
+        height: 300
+    },
+    placeholderDeal: {
+        width: 350,
+        height: 200
     }
 });

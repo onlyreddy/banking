@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { View, Text, Alert } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
-import Layout from './src/layout/Layout';
-import { showIf } from 'react-render-helpers';
 import BottomNavigation from './src/features/bottom-navigation/BottomNavigation';
 import Login from './src/features/login/Login';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NewPayeeForm from './src/features/new-payee/NewPayeeForm';
 
 const customTheme = {
   ...DefaultTheme,
@@ -17,22 +17,32 @@ const customTheme = {
   },
 };
 
+const Stack = createNativeStackNavigator();
+const Tab = createNativeStackNavigator();
+
+const AccountsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="NewPayeeForm" component={NewPayeeForm} />
+  </Stack.Navigator>
+);
+
+const BottomTabs = () => (
+  <Tab.Navigator >
+    <Tab.Screen name="BottomNavigation" component={BottomNavigation} options={{ headerShown: false }} />
+    <Tab.Screen name="New Payee Form" component={NewPayeeForm} options={{ tabBarLabel: 'Accounts' }} />
+  </Tab.Navigator>
+);
+
 export default function App() {
-  const [showHomePage, setShowHomePage] = React.useState(false);
-
-  const onLogonClick = React.useCallback(
-    () => {
-      setShowHomePage(true)
-    },
-    [],
-  )
-
   return (
     <SafeAreaProvider>
       <PaperProvider theme={customTheme}>
-        {showHomePage ? <BottomNavigation /> : <Login
-          onLogonClick={onLogonClick}
-        />}
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="BottomTabs">
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="BottomTabs" component={BottomTabs} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </PaperProvider>
     </SafeAreaProvider>
   );
